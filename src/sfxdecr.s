@@ -262,7 +262,7 @@
   zp_src_lo = $f9
   zp_src_hi = zp_src_lo + 1
   zp_bits_hi = $f8
-  zp_ro_state = $f9
+  zp_ro_state = $f6
 
   c_end_of_mem_rom = $a000
   c_effect_color   = $d017
@@ -349,7 +349,7 @@ transfer_len ?= 0
       i_irq_exit = 0
     .ENDIF
   .ELIF(r_target == 65)
-    ;; Since we isue BANK0 from basic, we need to disable IRQs
+    ;; Since we issue BANK0 from basic, we need to disable IRQs
     i_irq_during = 0
     .IF(!.DEFINED(i_irq_exit) &&
         (r_in_load < c_default_table ||
