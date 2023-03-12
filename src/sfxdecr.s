@@ -348,14 +348,10 @@ transfer_len ?= 0
     .IF(!.DEFINED(i_irq_exit))
       i_irq_exit = 0
     .ENDIF
-  .ELIF(r_target == 65)
-    ;; Since we issue BANK0 from basic, we need to disable IRQs
+  .ELIF(r_target == 65 && r_start_addr != -2)
+    ;; Non BASIC starting decruncher trashes system areas
     i_irq_during = 0
-    .IF(!.DEFINED(i_irq_exit) &&
-        (r_in_load < c_default_table ||
-         v_safety_addr < c_default_table ||
-         i_table_addr < c_default_table))
-      ;; must disable irq on exit to access mem < c_default_table
+    .IF(!.DEFINED(i_irq_exit))
       i_irq_exit = 0
     .ENDIF
   .ENDIF
@@ -494,6 +490,10 @@ stage2_exit_hook = 1
 .ELIF(r_target == 128)
   .IF(i_ram_during > $3f || i_ram_during < 0)
     .ERROR("Symbol i_ram_during must be undefined or be within [0-$3f].")
+  .ENDIF
+.ELIF(r_target == 65)
+  .IF(i_ram_during != 0 && i_ram_during != $ff)
+    .ERROR("Symbol i_ram_during must be undefined or be within [$ff-0].")
   .ENDIF
 .ENDIF
 
