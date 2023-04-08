@@ -348,14 +348,16 @@ void print_command_usage(const char *appl, enum log_level level)
 {
     /* done */
     LOG(level,
-        ("usage: %s level|mem|sfx|raw|desfx [option]... infile[,<address>]...\n"
-         "  See the individual commands for more help:\n"
+        ("usage: %s level|mem|sfx|raw|desfx [option]... infile[,<address>]...\n", appl));
+    print_base_flags(level, DEFAULT_OUTFILE);
+    LOG(level,
+        ("  To show command specific options combine the command with -?:\n"
          "  %s level -?\n"
          "  %s mem -?\n"
          "  %s sfx -?\n"
          "  %s raw -?\n"
          "  %s desfx -?\n",
-         appl, appl, appl, appl, appl, appl));
+         appl, appl, appl, appl, appl));
 }
 
 static
