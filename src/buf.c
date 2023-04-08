@@ -242,7 +242,7 @@ static void fskip(FILE *f, int off)
                         "Error: Error occured while skipping %d bytes.\n",
                         off);
             }
-            exit(-1);
+            exit(1);
         }
     }
 }
@@ -258,7 +258,7 @@ void *buf_freplace(struct buf *b, int b_off, int b_n,
     if (f == NULL)
     {
         fprintf(stderr, "Error: f must not be NULL.\n");
-        exit(-1);
+        exit(1);
     }
     if (b->capacity == -1)
     {
@@ -271,13 +271,13 @@ void *buf_freplace(struct buf *b, int b_off, int b_n,
         if(fseek(f, 0, SEEK_END))
         {
             fprintf(stderr, "Error: can't seek to EOF in file.\n");
-            exit(-1);
+            exit(1);
         }
         f_size = ftell(f);
         if(fseek(f, 0, SEEK_SET))
         {
             fprintf(stderr, "Error: can't seek to start in file.\n");
-            exit(-1);
+            exit(1);
         }
         if (f_off < 0)
         {
@@ -308,7 +308,7 @@ void *buf_freplace(struct buf *b, int b_off, int b_n,
     {
         /* An error occured. */
         fprintf(stderr, "Error, failed to skip %d bytes in file.\n", f_off);
-        exit(-1);
+        exit(1);
     }
 
     len = (f_n == -1 || f_n > 2048) ? 2048 : f_n;

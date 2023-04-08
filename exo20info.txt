@@ -62,6 +62,9 @@ All addresses that end an interval of any kind, printed by exomizer or given by
 the user as an argument, are exclusive. In other words they point to the
 address just following the last byte of the memory area the interval covers.
 
+The exit code of a successful invocation of exomizer is 0. An unsuccessful
+invocation exits with the code 1. No other exit codes are used.
+
 Exomizer has four sub commands: mem, level, sfx and raw. They all compress
 data. They share the following option flags:
 ----------------
@@ -250,9 +253,9 @@ bytes from secondary storage.
 
 -f      Crunch the file forward instead of backwards that is the default. This
         means that in this mode the write pointer move forward in memory while
-        decrunching. The exodecrunch.s does not support forward decrunching.
-        For this feature to work You'll have to use Krill's contributed
-        decruncher.
+        decrunching. The exodecrunch.s file supports optional forward
+        decrunching but defaults to backwards. Read the comments in the file
+        for more details on the available options.
 
 -------------------------------------------------------------------------------
 -- The sfx sub command --------------------------------------------------------

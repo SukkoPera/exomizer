@@ -105,7 +105,7 @@ void test_single(const char *prg_name, const char *data_name,
     if(prg_info.run == -1)
     {
         LOG(LOG_ERROR, ("Error, can't find entry point.\n"));
-        exit(-1);
+        exit(1);
     }
 
     LOG(LOG_DEBUG, ("run %04x\n", prg_info.run));

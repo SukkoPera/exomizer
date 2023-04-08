@@ -24,19 +24,19 @@ int main(int argc, char *argv[])
     if(argc != 3)
     {
         fprintf(stderr, "Error: usage: %s <infile> <outfile>\n", argv[0]);
-        exit(-1);
+        exit(1);
     }
     in = fopen(argv[1], "rb");
     if(in == NULL)
     {
         fprintf(stderr, "Error: can't open %s for input.\n", argv[1]);
-        exit(-1);
+        exit(1);
     }
     out = fopen(argv[2], "wb");
     if(in == NULL)
     {
         fprintf(stderr, "Error: can't open %s for output.\n", argv[2]);
-        exit(-1);
+        exit(1);
     }
 
     ctx = exo_decrunch_new(MAX_OFFSET, read_byte, in);

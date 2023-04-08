@@ -34,6 +34,7 @@
 #include "parse.h"
 #include "asm.tab.h"
 
+#define YY_EXIT_FAILURE 1
 #define MAX_SRC_BUFFER_DEPTH 10
 static YY_BUFFER_STATE src_buffers[MAX_SRC_BUFFER_DEPTH];
 static int src_buffer_depth = 0;
