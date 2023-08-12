@@ -1923,25 +1923,28 @@ void desfx(const char *appl, int argc, char *argv[])
         }
 
         LOG(LOG_BRIEF, (" Writing \"%s\" as prg, saving from $%04X to $%04X, "
-                        "entry1 at $%04X.\n", n, start, cookedend, entry1));
+                        "entry at $%04X.\n", n, start, cookedend, entry1));
         write_file(n, &mem);
 
         buf_free(&mem);
     }
 
-    buf_clear(&buf);
-    perf_buf_print(&perf, &buf);
-    LOG(LOG_NORMAL, ("All files:\n%s", (char*)buf_data(&buf)));
+    if (stat != 0)
+    {
+        buf_clear(&buf);
+        perf_buf_print(&perf, &buf);
+        LOG(LOG_NORMAL, ("All files:\n%s", (char*)buf_data(&buf)));
 
-    buf_clear(&buf);
-    perf_sort_size_cycles(&perf, 1);
-    perf_buf_print(&perf, &buf);
-    LOG(LOG_NORMAL, ("\nSorted on size:\n%s", (char*)buf_data(&buf)));
+        buf_clear(&buf);
+        perf_sort_size_cycles(&perf, 1);
+        perf_buf_print(&perf, &buf);
+        LOG(LOG_NORMAL, ("\nSorted on size:\n%s", (char*)buf_data(&buf)));
 
-    buf_clear(&buf);
-    perf_sort_cycles_size(&perf, 1);
-    perf_buf_print(&perf, &buf);
-    LOG(LOG_NORMAL, ("\nSorted on cycles:\n%s", (char*)buf_data(&buf)));
+        buf_clear(&buf);
+        perf_sort_cycles_size(&perf, 1);
+        perf_buf_print(&perf, &buf);
+        LOG(LOG_NORMAL, ("\nSorted on cycles:\n%s", (char*)buf_data(&buf)));
+    }
 
     buf_free(&buf);
     perf_free(&perf);

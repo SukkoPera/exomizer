@@ -34,6 +34,7 @@
 struct mem_ctx
 {
     u8 *mem;
+    int trace_access;
     struct areatrace at;
 };
 
@@ -49,7 +50,10 @@ static void mem_access_write(struct mem_access *this, u16 address, u8 value)
     }
 
     ctx->mem[address] = value;
-    areatrace_access(&ctx->at, address);
+    if (ctx->trace_access)
+    {
+        areatrace_access(&ctx->at, address);
+    }
 }
 
 static u8 mem_access_read(struct mem_access *this, u16 address)
@@ -72,6 +76,7 @@ u16 decrunch_sfx(u8 mem[65536], u16 run, int *startp, int *endp, u32 *cyclesp)
 
     m.mem = mem;
     m.mem[1] = 0x37;
+    m.trace_access = 0;
     areatrace_init(&m.at);
 
     LOG(LOG_DEBUG, ("run %04x\n", run));
@@ -81,6 +86,8 @@ u16 decrunch_sfx(u8 mem[65536], u16 run, int *startp, int *endp, u32 *cyclesp)
     {
         next_inst(&r);
     }
+
+    m.trace_access = 1;
 
     /* decrunching */
     while(r.pc < 0x400)
