@@ -1,3 +1,7 @@
++ The logic in the sfx decruncher should also check if the setup copy area
+  accesses RAM below ROM when deciding ram_during. Bug reported by Comos.
++ The desfx sub command should only consider mem areas created after setup for
+  detection of the decrunched data. Bug reported by Gi-Joe.
 + Make c65 sfx target disable IRQ:s on exit in more situations.
 + Fix Atari 8bit sfx zero page addr collision.
 + Improve zp-usage and fix sfx basic for target PET 4032.
