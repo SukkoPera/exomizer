@@ -424,6 +424,7 @@ encoded_entries = 52
 ; -- convert $0 to $10000 but leave $1 - $ffff ----------------------
 ; -------------------------------------------------------------------
 v_highest_addr = (.INCWORD("crunched_data", -2) + 65535) % 65536 + 1
+v_highest_addr_out ?= v_highest_addr
 
 ; -------------------------------------------------------------------
 ; -- file2_start_hook and stage2_exit_hook --------------------------
@@ -457,7 +458,8 @@ stage2_exit_hook = 1
 ; -- calculate "*_during" parameters --------------------------------
 ; -------------------------------------------------------------------
 .IF(!.DEFINED(i_ram_during))
-  .IF(v_highest_addr > c_end_of_mem_rom)
+  .IF(v_highest_addr > c_end_of_mem_rom ||
+      v_highest_addr_out > c_end_of_mem_rom)
     i_ram_during = c_ram_config_value
   .ELSE
     i_ram_during = i_ram_enter
@@ -2444,6 +2446,7 @@ file1start:
         .INCBIN("crunched_data", 2, transfer_len)
 file1end:
 highest_addr_out:
+v_highest_addr_out = highest_addr_out
 ; -------------------------------------------------------------------
 ; -- end of file part 1 ---------------------------------------------
 ; -------------------------------------------------------------------

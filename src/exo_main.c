@@ -1584,6 +1584,7 @@ void sfx(const char *appl, int argc, char *argv[])
             i32 max_transfer_len;
             i32 lowest_addr_out;
             i32 highest_addr_out;
+            i32 transfer_len;
             i32 i_table_addr;
             i32 stage3end, zp_len_lo, zp_len_hi, zp_src_lo, zp_bits_hi;
             i32 zp_ro_state, i_effect;
@@ -1601,6 +1602,7 @@ void sfx(const char *appl, int argc, char *argv[])
             resolve_symbol("max_transfer_len", NULL, &max_transfer_len);
             resolve_symbol("lowest_addr_out", NULL, &lowest_addr_out);
             resolve_symbol("highest_addr_out", NULL, &highest_addr_out);
+            resolve_symbol("transfer_len", NULL, &transfer_len);
             resolve_symbol("i_table_addr", NULL, &i_table_addr);
             resolve_symbol("stage3end", NULL, &stage3end);
             resolve_symbol("zp_len_lo", NULL, &zp_len_lo);
@@ -1647,6 +1649,12 @@ void sfx(const char *appl, int argc, char *argv[])
                             highest_addr_out));
 
             LOG(LOG_NORMAL, ("Memory layout:   |Start |End   |\n"));
+            if (transfer_len > 0)
+            {
+                LOG(LOG_NORMAL, (" Setup copy from | $%04X| $%04X| to $%04X\n",
+                                 highest_addr_out - transfer_len,
+                                 highest_addr_out, lowest_addr));
+            }
             LOG(LOG_NORMAL, (" Crunched data   | $%04X| $%04X|\n",
                              lowest_addr, lowest_addr + max_transfer_len));
             LOG(LOG_NORMAL, (" Decrunched data | $%04X| $%04X|\n",
