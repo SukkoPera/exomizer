@@ -49,14 +49,14 @@ o  Contributed decruncher source (only 2.0 compatible so far)
 -- A beginning of something like documentation --------------------------------
 -------------------------------------------------------------------------------
 A note about addresses:
-An address in this context is a positive 16-bit value [0 - 65536]. It can be
+An address in this context is an unsigned 16-bit value [0 - 65535]. It can be
 given in decimal, hexadecimal (prefixed with $, & or 0x) or octal (prefixed with
 0) notation. Examples: 3, 54, $3456, 0x1111, 06543.
 
 Please be aware that in some command line shells $ and & have special meaning
 if used unescaped. If you use $ or & as hexadecimal prefix and see strange
-behaviour from exomizer you might be bitten by this. Try 0x instead and see if
-things improve.
+behaviour from exomizer you might be affected by this. Try 0x instead and see
+if things improve.
 
 All addresses that end an interval of any kind, printed by exomizer or given by
 the user as an argument, are exclusive. In other words they point to the
@@ -65,8 +65,8 @@ address just following the last byte of the memory area the interval covers.
 The exit code of a successful invocation of exomizer is 0. An unsuccessful
 invocation exits with the code 1. No other exit codes are used.
 
-Exomizer has four sub commands: mem, level, sfx and raw. They all compress
-data. They share the following option flags:
+Exomizer has four sub commands: "mem", "level", "sfx" and "raw". They all
+compress data. They share the following option flags:
 ----------------
 -c      This flag enables 1.x compatibility mode. It disables the use of the
         literal sequence escape mechanism. It will make the output files
@@ -89,8 +89,8 @@ data. They share the following option flags:
         If the encoding starts with a '@' then the rest will be used as a file
         name to read the encoding from. It can be used to read encoding files
         written by the -E flag described below. Please note that the -P and -T
-        flags must be the same for this to work since the format is different
-        for different flag combinations.
+        flags (if used) must be the same for this to work since the format is
+        different for different flag combinations.
 
 -E      This flag enables an experimental feature for encoding reuse between
         multiple files. Please note that there is no direct support for
@@ -163,23 +163,22 @@ data. They share the following option flags:
         and the valid options. Also for the sub command if one is given.
 
 -------------------------------------------------------------------------------
--- Information relevant for the mem, sfx and level sub commands ---------------
+-- Information relevant for the "mem", "sfx" and "level" sub commands ---------
 -------------------------------------------------------------------------------
 
-The mem, level and sfx command all crunches files backwards. The files are
-loaded into a 16-bit address space and are also limited in size to that 16-bit
-address space. The format of the input files can be prg files, Atari xex
+ The "mem", "level" and "sfx" command all crunches files backwards. The files
+are loaded into a 16-bit address space and are also limited in size to that
+16-bit address space. The format of the input files can be prg files, Atari xex
 files, Oric tap files, AppleSingle files, BBC Micro Standard Archive Format
 file tuples or located plain files (plain files that are given an address to
-load to.) Please note that all input file formats is valid for all sfx targets
-which can be a bit unexpected.
+load to.) Please note that all input file formats is valid for all sfx targets.
 
- Plain raw files are loaded by adding an address to it using the @-character.
-It is also possible to specify an optional offset and optional length if only a
-part of the file is to be loaded. Like addresses, the offsets and the lengths
-can be given in either decimal or hexadecimal notation using either 0x or $
-prefixes. The offset can also be negative and will then be applied from the end
-of the file instead of from the start.
+ Plain raw files are loaded by adding an address to its file name  using the
+@-character. It is also possible to specify an optional offset and optional
+length if only a part of the file is to be loaded. Like addresses, the offsets
+and the lengths can be given in either decimal or hexadecimal notation using
+either 0x or $ prefixes. The offset can also be negative and will then be
+applied from the end of the file instead of from the start.
 
 <file name>@<load address>[,[<offset>][,[<length>]]]
 
@@ -205,7 +204,7 @@ Examples:
   file name.
 
  Relocation does not work for xex or tap files. A relocated xex or tap file
-will simply be treated as if it was a relocated prg file.
+will simply be treated as if it was a relocated raw or prg file.
 
  When given multiple input files the sfx and mem commands loads all files to
 where they are located and then crunch the covered memory area. Any unused
@@ -221,13 +220,14 @@ the auto detection relocate the prg files to the same address they normally
 load to.
 
 -------------------------------------------------------------------------------
--- The mem sub command --------------------------------------------------------
+-- The "mem" sub command ------------------------------------------------------
 -------------------------------------------------------------------------------
- The mem command generated files that are used for decrunching from memory.
+ The "mem" command generated files that are used for decrunching from memory.
 Normally these files are linked into the program images either by machine code
 monitors or by assembler directives like incbin.
 
- The mem command writes its output in prg format. It has the following option:
+ The "mem" command writes its output in prg format. It has the following
+options:
 
 -l <address>|none
         Sets the load address of the output prg file to <address>. If the
@@ -244,10 +244,10 @@ monitors or by assembler directives like incbin.
         file for more details on the available options.
 
 -------------------------------------------------------------------------------
--- The level sub command ------------------------------------------------------
+-- The "level" sub command ----------------------------------------------------
 -------------------------------------------------------------------------------
 
- The level command writes its output file so that the crunched bytes are
+ The "level" command writes its output file so that the crunched bytes are
 returned in correct order for decrunching in the fly while streaming in the
 bytes from secondary storage.
 
@@ -258,45 +258,45 @@ bytes from secondary storage.
         for more details on the available options.
 
 -------------------------------------------------------------------------------
--- The sfx sub command --------------------------------------------------------
+-- The "sfx" sub command ------------------------------------------------------
 -------------------------------------------------------------------------------
 
- The sfx command generates a runnable stand alone in memory decrunching file.
+ The "sfx" command generates a runnable standalone, in memory decrunching file.
 Its first argument must always be the run address. It may be given as an
-address or of the following string sys, systrim, bin and basic.
+address or as one of the following strings "sys", "systrim", "bin" and "basic".
 
- If the run address is an actual address then it will be used as the target
-address of a jmp instruction executed after the decrunching.
+ If the run address is an address then it will be used as the target address of
+a jmp instruction executed after the decrunching.
 
- If the run address is the string sys then the run address will be
+ If the run address is the string "sys" then the run address will be
 auto detected by scanning the area of the basic start for a SYS (or CALL) BASIC
 command.
 
- The keyword systrim behaves just like keyword sys but it also excludes the
-memory area that contains the SYS BASIC line from being included in the
+ The keyword "systrim" behaves just like the keyword "sys" but it also excludes
+the memory area that contains the SYS BASIC line from being included in the
 crunched file. This is very handy for the unexpanded VIC-20 target which
 normally can't decrunch sfx-ed programs residing at the BASIC start since it
-has a memory hole that will overlap with the crunched data. By using systrim,
+has a memory hole that will overlap with the crunched data. By using "systrim",
 the start of decrunched data will be moved a few bytes and by that also move
 the crunched data out of the memory hole.
 
- If the run address is the string bin then the run address will be detected
+ If the run address is the string "bin" then the run address will be detected
 from the in-file. If no in-file is given that contains any run address then it
 will be set to the start address of the combined memory area of the loaded in-
 files. An implicit -Di_load_addr=<A> will be used as well so the load and run
 addresses of the generated file will be A too. The generated file will not
 contain any basic stub.
 
- If the run address is the string basic then the computer will run a BASIC
+ If the run address is the string "basic" then the computer will run a BASIC
 program after decrunch. This is not yet implemented for the Atari target.
 The Oric target support BASIC start for the Oric 1 and Atmos computers but not
 for the Telestrat.
 
 The c65 computer stores a lot of data used by BASIC 10 on the hardware stack.
-Because of this, if the run address is the string basic then the c65 target
+Because of this, if the run address is the string "basic" then the c65 target
 will not overwrite the stack nor any zeropage. The decruncher, zero page and
 decrunch table will instead be moved to $1800- $19ff during decrunch. If the
-run address is not basic then the decruncher will be placed at $0100 and the
+run address is not "basic" then the decruncher will be placed at $0100 and the
 table at $0200. The program is then expected to not be dependent on the stack
 data being correct when run but can instead be decrunched to $02a0-$ffff if
 -Di_ram_exit=0.
@@ -325,14 +325,14 @@ could be when a BASIC program needs to be run at a non standard address and/or
 some graphic needs to be protected from BASIC variables.
 
  The output of the sfx command is a runnable program file that decrunches
-itself in memory when run. If an explicit run address or the string bin is
+itself in memory when run. If an explicit run address or the string "bin" is
 given then some targets like Atari 8-bit, Oric 1, BBC Micro B and Apple II will
-be auto detected based on the format of the in files. For other situations or
+be auto detected based on the format of the in-files. For other situations or
 if auto detection fails then the target defaults to C64 unless the -t <target>
 option is given. This option can also be used to override the target auto
 detection if necessary.
 
-The output file format depends on the target used:
+The output file format of the sfx command depends on the target used:
 
  For all Commodore machines the output is a runnable prg-file that starts
 with a BASIC line.
@@ -342,7 +342,7 @@ with a BASIC line.
  For the Apple target the output is an AppleSingle file that almost always
 is a PRODOS bin file (file-type 6). But if the loaded file was a AppleSingle
 system file then it will be a system file (file-type $ff). However if the run
-address is the string basic, then it will be a PRODOS Applesoft basic file.
+address is the string "basic", then it will be a PRODOS Applesoft basic file.
 (file-type $fc)
 
  For the BBC target the output is a BBC Micro Standard Archive Format file
@@ -429,13 +429,14 @@ might fail if the decrunched area is unusual.
 -e <address>|load
         Overrides the entry point of the decruncher with <address> or if the
         string load is given, the load address of the input file will be used.
+-S enables performance statistics output and allow multiple input files.
 
 -------------------------------------------------------------------------------
 -- The raw sub command --------------------------------------------------------
 -------------------------------------------------------------------------------
 
  Now let's go back to the command that handles plain files, raw.
-The raw command can both crunch and decrunch both forward and backward. It also
+The raw command can crunch and decrunch both forwards and backwards. It also
 handles generic files without any of the above mentioned restrictions. There's
 no hard coded limit in file size but it gets increasingly slow with larger
 files so there's a practical limit of about 1MB. The output file format of this
@@ -586,7 +587,7 @@ Oric the default load address is $0500.
 
  If it is set then the sfx file will load to the given address and it will not
 have any BASIC line. (The Atari target never has a BASIC line). The run address
-is the same as the load address.
+is then the same as the load address.
 
 The following symbol controls the sfx BASIC line number:
  i_line_number
@@ -629,12 +630,12 @@ for The Atari target, use the symbol i_table_addr:
  -Di_table_addr=<address>
 
 The Apple ][+ target has an option to disconnect DOS. To do this, set the
-i_a2_disable_dos symbol to any value:
+i_a2_disable_dos symbol to 1:
  -Di_a2_disable_dos=1
 
-The Apple ][+ target writes files in the AppleSingle format. This option
-overrides the PRODOS filetype of the target file to the set value. To force a
-file of system type set the i_a2_file_type symbol to the file type value.
+The Apple ][+ target writes files in the AppleSingle format. It has an option
+to override the otherwise auto detected PRODOS file type. To do this set the
+i_a2_file_type symbol to the value of the wanted file type.
 See http://www.easy68k.com/paulrsm/6502/PDOS8TRM.HTM#B.4.2.4 for a list of
 valid file types:
  -Di_a2_file_type=<file-type>
@@ -645,11 +646,12 @@ the -x or -X flags or deactivated by -n.
 -------------------------------------------------------------------------------
 -- Comparison of outfile structure of the level, mem and raw sub commands --
 -------------------------------------------------------------------------------
- The crunched files generated by the mem and level sub command are structurally
-identical to the files generated by the raw sub command except that they also
-contains the decrunch address appended or prepended. For mem there is also the
-prg header <load le>. The following table shows how the output of the mem and
-level sub commands are related to the output of the raw sub command.
+ The crunched files generated by the "mem" and "level" sub command are
+ structurally identical to the files generated by the "raw" sub command except
+that they also contains the decrunch address appended or prepended. For "mem"
+there is also the prg header <load le>. The following table shows how the
+output of the mem and level sub commands are related to the output of the "raw"
+sub command.
 
  [exomizer mem -lnone]    == [exomizer raw -b] + <--decr le>
  [exomizer mem -f -lnone] == <decr be++> + [exomizer raw]
@@ -661,18 +663,18 @@ level sub commands are related to the output of the raw sub command.
  <decr be|le> is the decrunch pointer, a 16 bit address written in either big
 endian or little endian.
 
- For lines that contans the raw sub command with the -b flag the decruncher
+ For lines that contans the "raw" sub command with the -b flag the decruncher
 writes backwards in memory and will predecrement (--) the decrunch address. The
 value of the address in the file will be the address that immediately follows
 the last byte of the uncrunched data.
 
- For lines that contains the raw sub command without the -b flag the decruncher
-writes forward in memory and will postincrement (++) the decrunch address. The
-value of the address in the file will be the address of the first byte of the
-uncrunched data.
+ For lines that contains the "raw" sub command without the -b flag the
+decruncher writes forward in memory and will postincrement (++) the decrunch
+address. The value of the address in the file will be the address of the first
+byte of the uncrunched data.
 
-This also means that it is possible to decrunch level and mem files using the
-raw sub command if you use the offset and len options to skip the extra
+This also means that it is possible to decrunch "level" and "mem" files using
+the "raw" sub command, if you use the offset and len options to skip the extra
 addresses. Please note that the resulting files will be raw and not prg.
 
  mem -lnone    => raw -d -b a.out,0,-2
