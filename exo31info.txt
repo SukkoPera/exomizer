@@ -123,9 +123,8 @@ Contributing
    However, The unclear licensing of some of the contributions so far has not
    been ideal. So please decide on what license to use before contributing. If
    you are unsure about the licensing then I recommend using the same license
-   that I use for my own decruncher sources. It is a plain zlib license with an
-   additional BSD like no-endorsement clause. See exodecrs/exodecrunch.s for
-   how it can be included in the source file as a comment block.
+   that I use for this project, the zlib license. See exodecrs/exodecrunch.s
+   for how it can be included in the source file as a comment block.
 
 Sources of inspiration
 ----------------------

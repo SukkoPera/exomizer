@@ -18,10 +18,6 @@
  *   be misrepresented as being the original software.
  *
  *   3. This notice may not be removed or altered from any distribution.
- *
- *   4. The names of this software and/or it's copyright holders may not be
- *   used to endorse or promote products derived from this software without
- *   specific prior written permission.
  */
 
 /**
