@@ -1,3 +1,5 @@
+2023-11-25
+Release of 3.1.1 source code and win32 binaries.
 + Change to pure zlib license for all files not contributed by others.
 + The logic in the sfx decruncher should also check if the setup copy area
   accesses RAM below ROM when deciding ram_during. Bug reported by Comos.

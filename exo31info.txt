@@ -3,10 +3,26 @@ This document only mentions what has changed since exomizer 2.0. For
 more general exomizer info please read the exo20info.txt file which also
 might contain updated information about previously existing features.
 
+Exomizer 3.1.2
+--------------
+
+New features since 3.1.1
+------------------------
+o  The license has been changed from a home grown license based on the zlib license to
+   a pure zlib license which makes us compatible with GPL. Please observe that the
+   distribution also contains contributed decruncher source code in rawdecrs/6809/,
+   rawdecrs/8080/, rawdecrs/8086/ and rawdecrs/z80/ using different licenses which have
+   not changed.
+o  The exodecr/exodecrunch.s 6502 decruncher now also exists in a version for kick-
+   assembler. See exodecrs/kick for the files. As the existing versions for dasm
+   and acme it implement the same feature set as the ca65 version.
+
+For bugfixes and minor improvements see the file changelog.txt for more details.
+
 Exomizer 3.1.1
 --------------
 
-New features since 3.0
+New features since 3.1
 ----------------------
 o New -y option to the sfx command to add text to the end of the generated
   SYS-line (or CALL).
