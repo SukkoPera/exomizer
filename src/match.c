@@ -110,40 +110,43 @@ void match_ctx_init(struct match_ctx *ctx,         /* IN/OUT */
     ctx->len = buf_len;
     ctx->noread_buf = noread_buf;
 
-    val = READ_BUF(buf, noread_buf, 0);
-    for (i = 1; i < buf_len; ++i)
+    if (buf_len > 0)
     {
-        if (val != -1 && buf[i] == val)
+        val = READ_BUF(buf, noread_buf, 0);
+        for (i = 1; i < buf_len; ++i)
         {
-            int len = ctx->rle[i - 1] + 1;
-            if(len > ctx->max_len)
+            if (val != -1 && buf[i] == val)
             {
-                len = ctx->max_len;
+                int len = ctx->rle[i - 1] + 1;
+                if(len > ctx->max_len)
+                {
+                    len = ctx->max_len;
+                }
+                ctx->rle[i] = len;
+            } else
+            {
+                ctx->rle[i] = 0;
             }
-            ctx->rle[i] = len;
-        } else
-        {
-            ctx->rle[i] = 0;
+            val = READ_BUF(buf, noread_buf, i);
         }
-        val = READ_BUF(buf, noread_buf, i);
-    }
 
-    val = READ_BUF(buf, noread_buf, 0);
-    for (i = buf_len - 2; i >= 0; --i)
-    {
-        if (val != -1 && buf[i] == val)
+        val = READ_BUF(buf, noread_buf, 0);
+        for (i = buf_len - 2; i >= 0; --i)
         {
-            int len = ctx->rle_r[i + 1] + 1;
-            if(len > ctx->max_len)
+            if (val != -1 && buf[i] == val)
             {
-                len = ctx->max_len;
+                int len = ctx->rle_r[i + 1] + 1;
+                if(len > ctx->max_len)
+                {
+                    len = ctx->max_len;
+                }
+                ctx->rle_r[i] = len;
+            } else
+            {
+                ctx->rle_r[i] = 0;
             }
-            ctx->rle_r[i] = len;
-        } else
-        {
-            ctx->rle_r[i] = 0;
+            val = READ_BUF(buf, noread_buf, i);
         }
-        val = READ_BUF(buf, noread_buf, i);
     }
 
     /* add extra nodes to rle sequences */

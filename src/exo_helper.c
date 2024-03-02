@@ -528,8 +528,21 @@ void crunch_multi(struct vec *io_bufs,
         }
     }
     LOG(LOG_NORMAL, (" Length of crunched data: %d bytes.\n", outlen));
-    LOG(LOG_BRIEF, (" Crunched data reduced %d bytes (%0.2f%%)\n",
-                    inlen - outlen, 100.0 * (inlen - outlen) / inlen));
+    if (inlen - outlen >= 0)
+    {
+        LOG(LOG_BRIEF, (" Crunched data reduced %d bytes (%0.2f%%).\n",
+                        inlen - outlen, 100.0 * (inlen - outlen) / inlen));
+    }
+    else
+    {
+        LOG(LOG_BRIEF, (" Crunched data enlarged %d bytes",
+                        outlen - inlen));
+        if (inlen != 0)
+        {
+            LOG(LOG_BRIEF, (" (%0.2f%%)", 100.0 * (outlen - inlen) / inlen));
+        }
+        LOG(LOG_BRIEF, (".\n"));
+    }
 
     optimal_free(&emd);
     for (i = 0; i < buf_count; ++i)
@@ -548,16 +561,17 @@ void crunch_multi(struct vec *io_bufs,
     }
 }
 
-void reverse_buffer(char *start, int len)
+void reverse_buffer(char *buf, int len)
 {
-    char *end = start + len - 1;
+    int start = 0;
+    int end = len - 1;
     char tmp;
 
     while (start < end)
     {
-        tmp = *start;
-        *start = *end;
-        *end = tmp;
+        tmp = buf[start];
+        buf[start] = buf[end];
+        buf[end] = tmp;
 
         ++start;
         --end;
@@ -633,7 +647,7 @@ void print_license(void)
 {
     LOG(LOG_WARNING,
         ("----------------------------------------------------------------------------\n"
-         "Exomizer v3.1.2 Copyright (c) 2002-2023 Magnus Lind. (magli143@gmail.com)\n"
+         "Exomizer v3.1.3b0 Copyright (c) 2002-2023 Magnus Lind. (magli143@gmail.com)\n"
          "----------------------------------------------------------------------------\n"));
     LOG(LOG_WARNING,
         ("This software is provided 'as-is', without any express or implied warranty.\n"

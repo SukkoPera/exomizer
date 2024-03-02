@@ -1,3 +1,5 @@
++ Make the raw sub-command handle 0 length indata. Bug reported by ecm.
+
 2023-11-25
 Release of 3.1.1 source code and win32 binaries.
 + Change to pure zlib license for all files not contributed by others.
