@@ -194,7 +194,8 @@ static const struct target_info sfx_targets[] =
     {128, 0x9e, 0x1c01, 0xff00,  "C128", "prg"},
     {162, 0x8c, 0x0801, 0xc000,  "Apple ][+ and //e", "AppleSingle"},
     {168, -1,   0x2000, 0xd000,  "Atari 400/800 XL/XE", "xex"},
-    {4032, 0x9e, 0x0401, 0x8000,  "CBM PET 4032", "prg"},
+    {3032, 0x9e, 0x0401, 0x8000,  "CBM PET 3032 BASIC2", "prg"},
+    {4032, 0x9e, 0x0401, 0x8000,  "CBM PET 4032 BASIC4", "prg"},
     {0xbbcb, -1, 0x1902, 0x8000,  "BBC Micro B", "BBCIm/BBCXfer inf"},
     {0,   -1,   -1,     -1,  NULL, NULL}
 };

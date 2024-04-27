@@ -190,7 +190,7 @@
   c_ram_nmi_value = 0
   c_default_table = $0b00
   .ENDIF
-.ELIF(r_target == 4032)
+.ELIF(r_target == 3032 || r_target == 2032)
   zp_len_lo = $16
   zp_len_hi = $17
   zp_src_lo = $18
@@ -623,7 +623,7 @@ exit_hook = 1
         lda #i_basic_highest_addr / 256
         sta <$3a
       .ENDIF
-    .ELIF(r_target == 4032)
+    .ELIF(r_target == 3032 || r_target == 4032)
       .IF(.DEFINED(i_basic_txt_start))
         lda #i_basic_txt_start % 256
         sta <$28
@@ -666,6 +666,11 @@ exit_hook = 1
         jsr $c659               ; init
         jsr $c533               ; regenerate line links
         jmp $c7ae               ; start
+    .ELIF(r_target == 3032)
+        jsr $C5A7
+        jsr $C579
+        jsr $C442
+        jmp $C6C4
     .ELIF(r_target == 4032)
         jsr $B622               ; Reset TXTPTR
         jsr $B5F0               ; CLR
@@ -1014,9 +1019,9 @@ oric_ROM11:
   .MACRO("d2r_nmi")
   .ENDMACRO
 .ELIF(r_target == 20 || r_target == 23 || r_target == 52 || r_target == 55 ||
-      r_target == 4032)
+      r_target == 3032 || r_target == 4032)
 ; -------------------------------------------------------------------
-; -- The ram/rom switch macros for c20 and PET 4032 -----------------
+; -- The ram/rom switch macros for c20 and PET 3032/4032 ------------
 ; -------------------------------------------------------------------
   .MACRO("b2d_nmi")
   .ENDMACRO
@@ -1134,7 +1139,7 @@ lowest_addr_out:
 o1_start:
 .ELIF(r_target == 20 || r_target == 23 || r_target == 52 || r_target == 55 ||
       r_target == 16 || r_target == 4 || r_target == 64 || r_target == 128 ||
-      r_target == 4032 || r_target == 65)
+      r_target == 3032 || r_target == 4032 || r_target == 65)
 ; -------------------------------------------------------------------
 ; -- Commodore file header stuff ------------------------------------
 ; -------------------------------------------------------------------
@@ -2465,7 +2470,7 @@ v_highest_addr_out = highest_addr_out
 o1_end:
 .ELIF(r_target == 20 || r_target == 23 || r_target == 52 || r_target == 55 ||
       r_target == 16 || r_target == 4 || r_target == 64 || r_target == 128 ||
-      r_target == 4032 || r_target == 65)
+      r_target == 3032 || r_target == 4032 || r_target == 65)
 ; -------------------------------------------------------------------
 ; -- Start of Commodore file footer stuff ---------------------------
 ; -------------------------------------------------------------------

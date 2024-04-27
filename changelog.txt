@@ -1,3 +1,4 @@
++ Add sfx target 3032 for PET BASIC2. Existing 4032 is for BASIC4.
 + Make the raw sub-command handle 0 length indata. Bug reported by ecm.
 
 2023-11-25

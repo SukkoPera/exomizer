@@ -16,7 +16,8 @@ o  sfx mode:
    7) Can generate relocated sfx targets without BASIC line.
    8) The Apple ][+ (and //e) is supported as sfx target 162.
    9) The Oric 8-bit family is supported as sfx target 1.
-  10) The Commodore PET 4032 is supported as sfx target 4032.
+  10) The Commodore PET is supported as sfx targets 3032 and 4032 for BASIC2
+      and BASIC4 respectively..
 
 o  Reads Atari xex-files and auto detects the RUNAD vector if the sys keyword
    is given to the sfx command.
