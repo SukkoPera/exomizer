@@ -1112,7 +1112,8 @@ void sfx(const char *appl, int argc, char *argv[])
             p = strtok(NULL, ",");
             /* look for an optional basic start address */
             if(p == NULL) break;
-            if(str_to_int(p, &basic_txt_start, NULL) != 0)
+            if(strcmp(p, "*") != 0 &&
+               str_to_int(p, &basic_txt_start, NULL) != 0)
             {
                 LOG(LOG_ERROR,
                     ("Error: invalid value for the start of basic text "
@@ -1123,7 +1124,8 @@ void sfx(const char *appl, int argc, char *argv[])
             p = strtok(NULL, ",");
             /* look for an optional basic end address */
             if(p == NULL) break;
-            if(str_to_int(p, &basic_var_start, NULL) != 0)
+            if(strcmp(p, "*") != 0 &&
+               str_to_int(p, &basic_var_start, NULL) != 0)
             {
                 LOG(LOG_ERROR,
                     ("Error: invalid value for the start of basic "
@@ -1134,7 +1136,8 @@ void sfx(const char *appl, int argc, char *argv[])
             p = strtok(NULL, ",");
             /* look for an optional highest address used by basic */
             if(p == NULL) break;
-            if(str_to_int(p, &basic_highest_addr, NULL) != 0)
+            if(strcmp(p, "*") != 0 &&
+               str_to_int(p, &basic_highest_addr, NULL) != 0)
             {
                 LOG(LOG_ERROR,
                     ("Error: invalid value for the highest address used "
