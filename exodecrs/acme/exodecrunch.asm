@@ -30,6 +30,12 @@
 ;  performance or backwards compatibility.
 ;  A simple way to work around this is to not decrunch to address $ffff.
 ; -------------------------------------------------------------------
+;
+; This file has been slightly modified by SukkoPera in order to allow full
+; control of definitions and variables from the including file. This way, it
+; can be used by multiple projects without duplication.
+
+
 ; Controls if the shared get_bits routines should be inlined or not.
 ;INLINE_GET_BITS=1
 !ifndef INLINE_GET_BITS {
@@ -105,20 +111,22 @@ ENABLE_SPLIT_ENCODING = 0
 ; -------------------------------------------------------------------
 ; zero page addresses used
 ; -------------------------------------------------------------------
-exod_zp_len_lo = $9e
-exod_zp_len_hi = $9f
+; Define these on a case-by-case basis before you include this file in your program
+;
+;~ exod_zp_len_lo = $9e
+;~ exod_zp_len_hi = $9f
 
-exod_zp_src_lo  = $ae
-exod_zp_src_hi  = exod_zp_src_lo + 1
+;~ exod_zp_src_lo  = $ae
+;~ exod_zp_src_hi  = exod_zp_src_lo + 1
 
-exod_zp_bits_hi = $a7
-!if DONT_REUSE_OFFSET = 0 {
-exod_zp_ro_state = $a8
-}
+;~ exod_zp_bits_hi = $a7
+;~ !if DONT_REUSE_OFFSET = 0 {
+;~ exod_zp_ro_state = $a8
+;~ }
 
-exod_zp_bitbuf  = $fd
-exod_zp_dest_lo = exod_zp_bitbuf + 1      ; dest addr lo
-exod_zp_dest_hi = exod_zp_bitbuf + 2      ; dest addr hi
+;~ exod_zp_bitbuf  = $fd
+;~ exod_zp_dest_lo = exod_zp_bitbuf + 1      ; dest addr lo
+;~ exod_zp_dest_hi = exod_zp_bitbuf + 2      ; dest addr hi
 
 !zone exodecrunch
 !if EXTRA_TABLE_ENTRY_FOR_LENGTH_THREE != 0 {
@@ -546,6 +554,9 @@ copy_skip_hi:
 ; this 156 (204) byte table area may be relocated. It may also be
 ; clobbered by other data between decrunches.
 ; -------------------------------------------------------------------
+; Define this symbol in your program before inclusion if you want to move this table somewhere else
+;
+!ifndef exod_decrunch_table {
 exod_decrunch_table:
         !byte 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
         !byte 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
@@ -562,6 +573,7 @@ exod_decrunch_table:
         !byte 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
         !byte 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
         !byte 0,0,0,0,0,0,0,0,0,0,0,0
+}
 ; -------------------------------------------------------------------
 ; end of decruncher
 ; -------------------------------------------------------------------
